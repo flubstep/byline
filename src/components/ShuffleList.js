@@ -25,6 +25,7 @@ export default class ShuffleList extends Component {
       dragStartPosition: null,
       dragPosition: null,
       dragItem: null,
+      dragItemHeight: null,
       dragItemIndex: null,
       items: MOCK_ITEMS,
       loading: true
@@ -38,28 +39,46 @@ export default class ShuffleList extends Component {
   }
 
   dragItemStart = (e, item, index) => {
+    let mousePos = e.touches ? _.last(e.touches) : e;
+    let dragStart = e.nativeEvent;
+    let rect = e.target.getBoundingClientRect();
+    if (_.isNil(dragStart.offsetX)) {
+      let x = e.targetTouches[0].pageX - rect.left;
+      let y = e.targetTouches[0].pageY - rect.top;
+      dragStart = {
+        offsetX: x,
+        offsetY: y
+      };
+    }
+    let dragItemHeight = Math.abs(rect.bottom - rect.top);
     this.setState({
       dragItem: item,
+      dragItemHeight: dragItemHeight,
       dragItemIndex: index,
-      dragStartOffset: [e.nativeEvent.offsetX, e.nativeEvent.offsetY],
+      dragStartOffset: [dragStart.offsetX, dragStart.offsetY],
       dragStartPosition: [e.pageX, e.pageY],
-      dragPosition: [e.pageX, e.pageY]
+      dragPosition: [mousePos.pageX, mousePos.pageY]
     });
+    e.stopPropagation();
     e.preventDefault();
     window.addEventListener('mousemove', this.dragItemMove);
+    window.addEventListener('touchmove', this.dragItemMove);
     window.addEventListener('mouseup', this.dragItemEnd);
+    window.addEventListener('touchend', this.dragItemEnd);
   }
 
   dragItemMove = (e) => {
+    e.stopPropagation();
+    let mousePos = e.touches ? _.last(e.touches) : e;
     if (this.state.dragItem) {
       this.setState({
-        dragPosition: [e.pageX, e.pageY]
+        dragPosition: [mousePos.pageX, mousePos.pageY]
       });
     }
   }
 
   dragItemEnd = (e) => {
-    // todo: drop?
+    e.stopPropagation();
     let items = this.state.items;
     if (!_.isNil(this.state.dropzoneIndex)) {
       let dropIndex = this.state.dropzoneIndex;
@@ -69,17 +88,21 @@ export default class ShuffleList extends Component {
       items = items.filter(item => item.key !== this.state.dragItem.key);
       items.splice(dropIndex, 0, this.state.dragItem);
     }
+    // TODO: this state is getting gross
     this.setState({
       items: items,
       dropzoneIndex: null,
       dragItem: null,
+      dragItemHeight: null,
       dragItemIndex: null,
       dragStartOffset: null,
       dragStartPosition: null,
       dragPosition: null
     });
     window.removeEventListener('mousemove', this.dragItemMove);
+    window.removeEventListener('touchmove', this.dragItemMove);
     window.removeEventListener('mouseup', this.dragItemEnd);
+    window.removeEventListener('touchend', this.dragItemEnd);
   }
 
   dropzoneOver = (index) => {
@@ -103,11 +126,16 @@ export default class ShuffleList extends Component {
   renderDropzone(index) {
     if (this.state.dragItem) {
       let activeCls = (index === this.state.dropzoneIndex ? ' active' : '');
+      let activeStyle = activeCls ? {
+        height: 36 + this.state.dragItemHeight,
+        transform: `translateY(-${18 + this.state.dragItemHeight}px)`
+      } : {};
       return (
         <div>
-          <div className={'rule' + activeCls} />
+          <div className={'rule' + activeCls}/>
           <div
             className={'dropzone' + activeCls}
+            style={activeStyle}
             onMouseOver={() => this.dropzoneOver(index)}
             onMouseOut={this.dropzoneOut}
             >

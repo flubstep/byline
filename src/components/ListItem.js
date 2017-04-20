@@ -16,6 +16,7 @@ export default class ListItem extends Component {
       <div
         className="ListItem"
         onMouseDown={this.props.onDragStart}
+        onTouchStart={this.props.onDragStart}
         >
         { this.props.children }
       </div>
