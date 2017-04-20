@@ -11,10 +11,10 @@ const DragStates = {
 };
 
 const MOCK_ITEMS = [
-  { key: 'one', text: 'One uno eins yi' },
-  { key: 'two', text: 'Two dos zwei er' },
-  { key: 'three', text: 'Three tres drei san' },
-  { key: 'four', text: 'Four quattro vier si' }
+  { key: 'one', text: 'This is just a test of the draggable item interface' },
+  { key: 'two', text: 'The results that are added are not saved anywhere' },
+  { key: 'three', text: 'Going to just leave this here as a test though' },
+  { key: 'four', text: 'Firebase integration is coming next' }
 ];
 
 export default class ShuffleList extends Component {
@@ -125,8 +125,7 @@ export default class ShuffleList extends Component {
         {
           this.state.items.map((item, index) => (
             <div key={item.key} style={{
-              opacity: this.state.dragItem && item.key === this.state.dragItem.key ? 0.1 : 1,
-              transition: 'opacity 0.2s ease-in-out'
+              opacity: this.state.dragItem && item.key === this.state.dragItem.key ? 0.1 : 1
             }}>
               { this.renderDropzone(index) }
               <ListItem onDragStart={(e) => this.dragItemStart(e, item, index)}>
@@ -140,7 +139,7 @@ export default class ShuffleList extends Component {
             <div
               className="drag-item"
               style={{
-                position: 'absolute',
+                position: 'fixed',
                 top: this.state.dragPosition[1] - this.state.dragStartOffset[1],
                 left: this.state.dragPosition[0] - this.state.dragStartOffset[0],
                 pointerEvents: 'none'

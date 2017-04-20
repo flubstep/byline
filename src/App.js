@@ -7,6 +7,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <h1>An ordered list</h1>
         <ShuffleList />
       </div>
     );
