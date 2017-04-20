@@ -1,0 +1,40 @@
+.ShuffleList {
+    margin: 0 auto;
+    text-align: left;
+}
+
+.ShuffleList .item-text {
+    font-size: 18px;
+}
+
+.ShuffleList .drag-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+}
+
+.ShuffleList .dropzone {
+    position: absolute;
+    height: 36px;
+    width: 100vw;
+    transform: translateY(-18px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ShuffleList .dropzone.active {
+
+}
+
+.ShuffleList .rule {
+    position: absolute;
+    width: 100%;
+    height: 0;
+    background-color: rgba(0, 0, 255, 0.3);
+    transition: height 0.1s ease-in;
+}
+
+.ShuffleList .rule.active {
+    height: 3px;
+}
+
