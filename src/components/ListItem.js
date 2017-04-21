@@ -57,7 +57,10 @@ export default class ListItem extends Component {
         onMouseDown={this.onPointerDown}
         onTouchStart={this.onPointerDown}
         >
-        { this.props.children }
+        { this.props.text }
+        <span>
+
+        </span>
       </div>
     )
   }

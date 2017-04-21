@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+
 import ListItem from './ListItem';
+import ListItemEditable from './ListItemEditable';
 import AddListItem from './AddListItem';
 
 import './ShuffleList.css';
@@ -21,12 +23,14 @@ export default class ShuffleList extends Component {
 
   constructor(props, context) {
     super(props, context);
+    // TODO: State is getting really large. Move to redux possibly?
     this.state = {
       dragStartPosition: null,
       dragPosition: null,
       dragItem: null,
       dragItemHeight: null,
       dragItemIndex: null,
+      editingItemKey: null,
       items: MOCK_ITEMS,
       loading: true
     };
@@ -148,6 +152,30 @@ export default class ShuffleList extends Component {
     }
   }
 
+  updateText = (updatedItem, text) => {
+    let newItems = this.state.items
+      .map(item => {
+        if (item.key === updatedItem.key) {
+          return Object.assign({}, item, { text });
+        } else {
+          return item;
+        }
+      })
+      .filter(item => !!item.text);
+    this.setState({
+      items: newItems,
+      editingItemKey: null
+    });
+  }
+
+  startEditing = (item) => {
+    this.setState({ editingItemKey: item.key });
+  }
+
+  stopEditing = () => {
+    this.setState({ editingItemKey: null });
+  }
+
   render() {
     return (
       <div className="ShuffleList">
@@ -157,9 +185,22 @@ export default class ShuffleList extends Component {
               opacity: this.state.dragItem && item.key === this.state.dragItem.key ? 0.1 : 1
             }}>
               { this.renderDropzone(index) }
-              <ListItem onDragStart={(e) => this.dragItemStart(e, item, index)}>
-                <span className="item-text">{ item.text }</span>
-              </ListItem>
+              {
+                item.key === this.state.editingItemKey ? (
+                  <ListItemEditable
+                    author={item.author}
+                    text={item.text}
+                    onComplete={text => this.updateText(item, text)}
+                  />
+                ) : (
+                  <ListItem
+                    author={item.author}
+                    text={item.text}
+                    onDragStart={(e) => this.dragItemStart(e, item, index)}
+                    onClick={(e) => this.startEditing(item)}
+                  />
+                )
+              }
             </div>
           ))
         }
@@ -174,9 +215,10 @@ export default class ShuffleList extends Component {
                 pointerEvents: 'none'
               }}
             >
-              <ListItem>
-                <span className="item-text">{ this.state.dragItem.text }</span>
-              </ListItem>
+              <ListItem
+                author={this.state.dragItem.author}
+                text={this.state.dragItem.text}
+              />
             </div>
           ) : null
         }
