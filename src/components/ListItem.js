@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+import FaHeart from 'react-icons/lib/fa/heart';
+import FaSmile from 'react-icons/lib/fa/smile-o';
+
 import './ListItem.css'
 
 export default class ListItem extends Component {
@@ -50,6 +53,16 @@ export default class ListItem extends Component {
     }
   }
 
+  onLike = (e) => {
+    e.stopPropagation();
+    this.props.onLike(e);
+  }
+
+  onLove = (e) => {
+    e.stopPropagation();
+    this.props.onLove(e);
+  }
+
   render() {
     return (
       <div
@@ -58,8 +71,13 @@ export default class ListItem extends Component {
         onTouchStart={this.onPointerDown}
         >
         { this.props.text }
-        <span>
-
+        <span className="emoji">
+          <span className="action-icon">
+            <FaHeart onMouseDown={this.onLove} />
+          </span>
+          <span className="action-icon">
+            <FaSmile onMouseDown={this.onLike} />
+          </span>
         </span>
       </div>
     )
@@ -67,5 +85,7 @@ export default class ListItem extends Component {
 }
 
 ListItem.defaultProps = {
-  holdTimeout: 300
+  holdTimeout: 300,
+  onLike: () => {},
+  onLove: () => {}
 };

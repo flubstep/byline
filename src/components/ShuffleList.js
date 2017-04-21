@@ -198,6 +198,7 @@ export default class ShuffleList extends Component {
                     text={item.text}
                     onDragStart={(e) => this.dragItemStart(e, item, index)}
                     onClick={(e) => this.startEditing(item)}
+                    onLike={() => console.log('like!')}
                   />
                 )
               }
