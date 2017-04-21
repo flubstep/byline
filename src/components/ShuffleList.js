@@ -7,18 +7,6 @@ import AddListItem from './AddListItem';
 
 import './ShuffleList.css';
 
-const DragStates = {
-  DOWN: 'down',
-  MOVING: 'moving'
-};
-
-const MOCK_ITEMS = [
-  { key: 'one', text: 'This is just a test of the draggable item interface' },
-  { key: 'two', text: 'The results that are added are not saved anywhere' },
-  { key: 'three', text: 'Going to just leave this here as a test though' },
-  { key: 'four', text: 'Firebase integration is coming next' }
-];
-
 export default class ShuffleList extends Component {
 
   constructor(props, context) {
@@ -31,15 +19,12 @@ export default class ShuffleList extends Component {
       dragItemHeight: null,
       dragItemIndex: null,
       editingItemKey: null,
-      items: MOCK_ITEMS,
       loading: true
     };
   }
 
   addItem = (newItem) => {
-    this.setState({
-      items: this.state.items.concat([newItem])
-    });
+    this.props.store.addItem(newItem);
   }
 
   dragItemStart = (e, item, index) => {
@@ -84,18 +69,11 @@ export default class ShuffleList extends Component {
 
   dragItemEnd = (e) => {
     e.stopPropagation();
-    let items = this.state.items;
     if (!_.isNil(this.state.dropzoneIndex)) {
-      let dropIndex = this.state.dropzoneIndex;
-      if (dropIndex > this.state.dragItemIndex) {
-        dropIndex -= 1;
-      }
-      items = items.filter(item => item.key !== this.state.dragItem.key);
-      items.splice(dropIndex, 0, this.state.dragItem);
+      this.props.store.moveItem(this.state.dragItem, this.state.dropzoneIndex);
     }
     // TODO: this state is getting gross
     this.setState({
-      items: items,
       dropzoneIndex: null,
       dragItem: null,
       dragItemHeight: null,
@@ -129,6 +107,7 @@ export default class ShuffleList extends Component {
   }
 
   renderDropzone(index) {
+    // TODO: Make <Dropzone> its own component with 'onDrop'
     if (this.state.dragItem) {
       let activeCls = (index === this.state.dropzoneIndex ? ' active' : '');
       let activeStyle = activeCls ? {
@@ -153,17 +132,8 @@ export default class ShuffleList extends Component {
   }
 
   updateText = (updatedItem, text) => {
-    let newItems = this.state.items
-      .map(item => {
-        if (item.key === updatedItem.key) {
-          return Object.assign({}, item, { text });
-        } else {
-          return item;
-        }
-      })
-      .filter(item => !!item.text);
+    this.props.store.updateItem({ ...updatedItem, text });
     this.setState({
-      items: newItems,
       editingItemKey: null
     });
   }
@@ -180,7 +150,7 @@ export default class ShuffleList extends Component {
     return (
       <div className="ShuffleList">
         {
-          this.state.items.map((item, index) => (
+          this.props.items.map((item, index) => (
             <div key={item.key} style={{
               opacity: this.state.dragItem && item.key === this.state.dragItem.key ? 0.1 : 1
             }}>
@@ -223,7 +193,7 @@ export default class ShuffleList extends Component {
             </div>
           ) : null
         }
-        { this.renderDropzone(this.state.items.length) }
+        { this.renderDropzone(this.props.items.length) }
         <AddListItem onSubmit={this.addItem} />
       </div>
     );

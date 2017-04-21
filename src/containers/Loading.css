@@ -1,0 +1,17 @@
+.Loading {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes loading {
+    0%   { transform: scale(1.0); }
+    50% { transform: scale(1.2); }
+    100%  { transform: scale(1.0); }
+}
+
+.icon-container {
+    animation: loading 2800ms infinite;
+}
