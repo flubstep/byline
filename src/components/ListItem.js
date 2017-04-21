@@ -15,8 +15,13 @@ export default class ListItem extends Component {
     this.dragTimeout = null;
   }
 
+  onMouseMove = (e) => {
+    e.preventDefault();
+  }
+
   onPointerDown = (e) => {
     this.setState({ pointerDown: true });
+    window.addEventListener('mousemove', this.onMouseMove);
     window.addEventListener('mouseup', this.onPointerUp);
     window.addEventListener('touchend', this.onPointerUp)
     e.persist();
@@ -41,6 +46,7 @@ export default class ListItem extends Component {
           this.props.onClick()
         }
       });
+      window.removeEventListener('mousemove', this.onMouseMove);
       window.removeEventListener('mouseup', this.onPointerUp);
       window.removeEventListener('touchend', this.onPointerUp);
     } else {
@@ -94,7 +100,7 @@ export default class ListItem extends Component {
 }
 
 ListItem.defaultProps = {
-  holdTimeout: 300,
+  holdTimeout: 200,
   onLike: () => {},
   onLove: () => {}
 };
