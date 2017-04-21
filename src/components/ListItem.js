@@ -27,17 +27,26 @@ export default class ListItem extends Component {
   }
 
   onPointerUp = (e) => {
+    let shouldFireClick = false;
     if (this.dragTimeout) {
       clearTimeout(this.dragTimeout);
       this.dragTimeout = null;
-      if (this.props.onClick) {
-        this.props.onClick();
-      }
+      shouldFireClick = !!this.props.onClick;
     }
     if (this.state.pointerDown) {
-      this.setState({ pointerDown: false });
+      this.setState({
+        pointerDown: false
+      }, () => {
+        if (shouldFireClick) {
+          this.props.onClick()
+        }
+      });
       window.removeEventListener('mouseup', this.onPointerUp);
       window.removeEventListener('touchend', this.onPointerUp);
+    } else {
+      if (shouldFireClick) {
+        this.props.onClick();
+      }
     }
   }
 

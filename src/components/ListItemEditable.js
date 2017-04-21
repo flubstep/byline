@@ -11,10 +11,6 @@ export default class ListItemEditable extends Component {
     }
   }
 
-  componentDidMount() {
-    this.refs.input.focus();
-  }
-
   onChange = (e) => {
     this.setState({ text: e.target.value });
   }
@@ -24,7 +20,7 @@ export default class ListItemEditable extends Component {
       <div className="ListItemEditable">
         <input
           ref="input"
-          autofocus={true}
+          autoFocus={true}
           value={this.state.text}
           onChange={this.onChange}
           onBlur={() => this.props.onComplete(this.state.text)}
