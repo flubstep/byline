@@ -68,6 +68,7 @@ export default class ShuffleList extends Component {
   }
 
   dragItemMove = (e) => {
+    e.preventDefault();
     e.stopPropagation();
     let mousePos = e.touches ? _.last(e.touches) : e;
     if (this.state.dragItem) {
