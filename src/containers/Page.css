@@ -3,6 +3,7 @@
 }
 
 .Page .page-title {
+    display: block;
     outline: none;
     border: none;
     font-size: 32px;
@@ -10,6 +11,6 @@
     letter-spacing: 0.8pt;
     text-align: center;
     width: 100%;
-    margin: 21px 0;
+    margin: 0.67em 0;
     box-sizing: border-box;
 }
