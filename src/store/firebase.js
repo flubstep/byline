@@ -25,7 +25,7 @@ export class FirebasePageStore {
 
   getInitialState() {
     return {
-      title: 'Your New Page',
+      title: '',
       items: [],
       users: {}
     };

@@ -21,7 +21,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.store = new FirebasePageStore('testpage');
+    this.store = new FirebasePageStore(this.props.page);
     this.store.on('value', this.handleStoreUpdate);
   }
 
@@ -31,7 +31,7 @@ class App extends Component {
 
   handleStoreUpdate = (store) => {
     let pageState = store.val();
-    let user = pageState.users[this.userId];
+    let user = pageState ? pageState.users[this.userId] : null;
     this.setState({
       pageState,
       user

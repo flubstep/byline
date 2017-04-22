@@ -34,7 +34,7 @@ export default class Page extends Component {
           onChange={this.updateTitle}
           spellCheck={false}
           value={this.props.title}
-          placeholder={'Untitled'}
+          placeholder={'Untitled Page'}
         />
         <ShuffleList {...this.props} />
         <UserSettings {...this.props} />
