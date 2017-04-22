@@ -32,21 +32,23 @@ export class FirebasePageStore {
   }
 
   initialize() {
-    this.ref.transaction(state => {
-      let nextState = state;
-      // If empty, need to start the room
-      if (_.isNil(state)) {
-        nextState = this.getInitialState()
-      }
-      // If not in the room, join the room
-      // TODO: Should I keep users room specific or make it global?
-      // Might be good to keep it separate for now in case privacy.
-      let user = this.userStore.getCurrentUser();
-      if (!nextState.users) {
-        nextState.users = {};
-      }
-      nextState.users[user.id] = user;
-      return nextState;
+    this.ref.once('value', store => {
+      // Don't actually care about the value, I just don't want
+      // the transaction to fire until we actually connected
+      this.ref.transaction(state => {
+        let nextState = state;
+        if (_.isNil(state)) {
+          nextState = this.getInitialState()
+        }
+        // TODO: Should I keep users room specific or make it global?
+        // Might be good to keep it separate for now in case privacy.
+        let user = this.userStore.getCurrentUser();
+        if (!nextState.users) {
+          nextState.users = {};
+        }
+        nextState.users[user.id] = user;
+        return nextState;
+      });
     });
   }
 
