@@ -87,4 +87,8 @@ export class FirebasePageStore {
       });
     }
   }
+
+  setUserInfo(info) {
+    this.ref.child('users').child(info.id).set(info);
+  }
 }
