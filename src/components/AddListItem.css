@@ -1,7 +1,11 @@
 .AddListItem {
+    display: flex;
+    align-items: center;
+    width: 100%;
     padding: 8px 16px;
     opacity: 0.3;
     transition: all 0.2s ease-in;
+    box-sizing: border-box;
 }
 
 .AddListItem.focus {
@@ -9,7 +13,7 @@
 }
 
 .AddListItem input {
-    width: 90%;
+    flex: 1;
     font-size: 18px;
     margin-right: 4px;
 }

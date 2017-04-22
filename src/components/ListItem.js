@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ProfileCircle from './ProfileCircle';
 
 import FaHeart from 'react-icons/lib/fa/heart';
 import FaSmile from 'react-icons/lib/fa/smile-o';
@@ -80,12 +81,16 @@ export default class ListItem extends Component {
 
   render() {
     return (
-      <div
-        className="ListItem"
-        onMouseDown={this.onPointerDown}
-        onTouchStart={this.onPointerDown}
-        >
-        { this.props.text }
+      <div className="ListItem">
+        <div className="author">
+          <ProfileCircle user={this.props.author} />
+        </div>
+        <div className="text-container"
+          onMouseDown={this.onPointerDown}
+          onTouchStart={this.onPointerDown}
+          >
+          { this.props.text }
+        </div>
         <span className="emoji">
           <span className="action-icon">
             <FaHeart onMouseDown={this.onLove} />

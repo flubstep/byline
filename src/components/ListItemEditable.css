@@ -1,5 +1,11 @@
-.ListItemEditable input {
+.ListItemEditable {
+    display: flex;
+    align-items: center;
     padding: 8px 16px;
+    box-sizing: border-box;
+}
+
+.ListItemEditable input {
     font-size: 18px;
     width: 100%;
     outline: none;

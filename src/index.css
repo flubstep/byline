@@ -10,6 +10,7 @@ input {
   border-width: 0 0 1px 0;
   border-color: #dddddd;
   outline: none;
+  padding: 0;
 }
 
 h1 {

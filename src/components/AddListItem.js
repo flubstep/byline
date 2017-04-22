@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import FaPencil from 'react-icons/lib/fa/pencil';
 import uuidV4 from 'uuid/v4';
 
+import ProfileCircle from './ProfileCircle';
+
 import './AddListItem.css';
 
 export default class AddListItem extends Component {
@@ -14,15 +16,33 @@ export default class AddListItem extends Component {
     };
   }
 
-  onFocus = () => { this.setState({ focused: true })}
-  onBlur = () => { this.setState({ focused: false })}
+  handleKeyDown = (e) => {
+    switch (e.code) {
+      case 'Enter':
+        this.onSubmit();
+      default:
+        break;
+    }
+  }
+
+  onFocus = () => {
+    this.setState({ focused: true })
+    window.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  onBlur = () => {
+    this.setState({ focused: false })
+    window.removeEventListener('keydown', this.handleKeyDown);
+  }
 
   onSubmit = (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     if (this.props.onSubmit) {
       let newItem = {
         key: uuidV4(),
-        author: 'No one',
+        author: this.props.user ? this.props.user.id : null,
         text: this.state.inputValue
       };
       this.props.onSubmit(newItem);
@@ -37,16 +57,15 @@ export default class AddListItem extends Component {
   render() {
     return (
       <div className={"AddListItem" + (this.state.focused ? ' focus' : '') }>
-        <form onSubmit={this.onSubmit}>
-          <input
-            onChange={this.onChange}
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
-            value={this.state.inputValue}
-            placeholder={'Your thoughts here'}
-          />
-          <FaPencil size={20} />
-        </form>
+        <ProfileCircle user={this.props.user} />
+        <input
+          onChange={this.onChange}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          value={this.state.inputValue}
+          placeholder={'Your thoughts here'}
+        />
+        <FaPencil size={20} />
       </div>
     )
   }

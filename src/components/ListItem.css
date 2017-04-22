@@ -1,4 +1,5 @@
 .ListItem {
+    display: flex;
     cursor: pointer;
     padding: 8px 16px;
     font-size: 18px;
@@ -10,8 +11,9 @@
 }
 
 .ListItem .emoji {
-    float: right;
+    display: none; /* until I can figure this out */
     opacity: 0;
+    float: right;
     transition: all 0.1s ease-in;
 }
 

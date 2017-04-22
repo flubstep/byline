@@ -158,13 +158,13 @@ export default class ShuffleList extends Component {
               {
                 item.key === this.state.editingItemKey ? (
                   <ListItemEditable
-                    author={item.author}
+                    author={this.props.users[item.author]}
                     text={item.text}
                     onComplete={text => this.updateText(item, text)}
                   />
                 ) : (
                   <ListItem
-                    author={item.author}
+                    author={this.props.users[item.author]}
                     text={item.text}
                     onDragStart={(e) => this.dragItemStart(e, item, index)}
                     onClick={(e) => this.startEditing(item)}
@@ -186,15 +186,12 @@ export default class ShuffleList extends Component {
                 pointerEvents: 'none'
               }}
             >
-              <ListItem
-                author={this.state.dragItem.author}
-                text={this.state.dragItem.text}
-              />
+              <ListItem text={this.state.dragItem.text} />
             </div>
           ) : null
         }
         { this.renderDropzone(this.props.items.length) }
-        <AddListItem onSubmit={this.addItem} />
+        <AddListItem user={this.props.user} onSubmit={this.addItem} />
       </div>
     );
   }
