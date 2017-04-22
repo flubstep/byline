@@ -45,8 +45,8 @@ export default class ShuffleList extends Component {
       dragItemHeight: dragItemHeight,
       dragItemIndex: index,
       dragStartOffset: [dragStart.offsetX, dragStart.offsetY],
-      dragStartPosition: [e.pageX, e.pageY],
-      dragPosition: [mousePos.pageX, mousePos.pageY]
+      dragStartPosition: [e.clientX, e.clientY],
+      dragPosition: [mousePos.clientX, mousePos.clientY]
     });
     e.stopPropagation();
     e.preventDefault();
@@ -62,7 +62,7 @@ export default class ShuffleList extends Component {
     let mousePos = e.touches ? _.last(e.touches) : e;
     if (this.state.dragItem) {
       this.setState({
-        dragPosition: [mousePos.pageX, mousePos.pageY]
+        dragPosition: [mousePos.clientX, mousePos.clientY]
       });
     }
   }

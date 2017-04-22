@@ -20,6 +20,7 @@ export default class AddListItem extends Component {
     switch (e.code) {
       case 'Enter':
         this.onSubmit();
+        break;
       default:
         break;
     }
