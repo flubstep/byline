@@ -34,7 +34,8 @@ export const ICON_OPTIONS = {
   tree: require('react-icons/lib/fa/tree'),
   car: require('react-icons/lib/fa/automobile'),
   glass: require('react-icons/lib/fa/glass'),
-  anchor: require('react-icons/lib/fa/anchor')
+  anchor: require('react-icons/lib/fa/anchor'),
+  ship: require('react-icons/lib/fa/ship')
 };
 
 const randomColor = () => {
