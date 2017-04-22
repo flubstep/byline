@@ -199,3 +199,7 @@ export default class ShuffleList extends Component {
     );
   }
 }
+
+ShuffleList.defaultProps = {
+  items: []
+};

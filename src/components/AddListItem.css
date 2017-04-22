@@ -12,8 +12,6 @@
     width: 90%;
     font-size: 18px;
     margin-right: 4px;
-    border-width: 0 0 1px 0;
-    border-color: #dddddd;
 }
 
 .AddListItem input:focus {

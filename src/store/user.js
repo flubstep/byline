@@ -15,7 +15,6 @@ export const COLOR_OPTIONS = [
   '#4caf50', // green 500
   '#8bc34a', // light green 500
   '#cddc39', // lime 500
-  '#ffeb3b', // yellow 500
   '#ffc107', // amber 500
   '#ff9800', // orange 500
   '#ff5722', // deep orange 500
@@ -49,10 +48,11 @@ const randomIcon = () => {
   return keys[index];
 }
 
+// TODO: Any reason to keep this as a class and not just
+// methods on the module? This is basically a singleton.
 export class UserStore {
 
-  constructor(firebaseStore) {
-    this.firebaseStore = firebaseStore;
+  constructor() {
     this.emitter = new EventEmitter();
     this.initialize();
   }
@@ -101,9 +101,6 @@ export class UserStore {
 
   setCurrentUser(info) {
     localStorage.setItem('userinfo', JSON.stringify(info));
-    if (this.firebaseStore) {
-      this.firebaseStore.setUserInfo(info);
-    }
     this.emitter.emit('value', info);
   }
 

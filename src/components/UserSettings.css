@@ -1,0 +1,111 @@
+.UserSettings {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.UserSettings .user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.UserSettings .user-icon:hover {
+    transform: scale(1.1);
+}
+
+.UserSettings .description {
+    margin-left: 10px;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.2s ease-in-out;
+}
+
+.UserSettings:hover .description {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+@keyframes animate-in {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.SettingsModal {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.3);
+    padding: 20px;
+    animation: animate-in 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+}
+
+.SettingsModal.animate-out {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.SettingsModal h2 {
+    margin: 20px 0;
+    padding: 0;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.SettingsModal input {
+    margin-bottom: 20px;
+}
+
+.SettingsModal .color-options,
+.SettingsModal .icon-options {
+    display: flex;
+    flex-wrap: wrap;
+    width: 144px;
+}
+
+.SettingsModal .color-option,
+.SettingsModal .icon-option {
+    width: 24px;
+    height: 24px;
+    border: 2px solid white;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: border-radius 0.2s ease-in-out;
+}
+
+.SettingsModal .color-option:hover,
+.SettingsModal .icon-option:hover {
+    border-radius: 8px;
+}
+
+.SettingsModal .color-option.selected {
+    border-radius: 12px;
+}
+
+.SettingsModal .icon-option {
+    border-radius: 4px;
+    background-color: #333333;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.SettingsModal .icon-option.selected {
+    border-radius: 18px;
+}

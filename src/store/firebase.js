@@ -3,6 +3,8 @@ import 'firebase/database';
 import uuidV4 from 'uuid/v4';
 import _ from 'lodash';
 
+import { UserStore } from './user';
+
 const config = {
   databaseURL: 'https://shuffle-d7424.firebaseio.com/'
 };
@@ -14,6 +16,8 @@ window.firebase = firebase;
 export class FirebasePageStore {
 
   constructor(page) {
+    this.userStore = new UserStore();
+    this.userId = this.userStore.getCurrentUser().id;
     this.page = page;
     this.ref = firebase.database().ref(page);
     this.initialize();
@@ -22,16 +26,27 @@ export class FirebasePageStore {
   getInitialState() {
     return {
       title: 'Your New Page',
-      items: []
+      items: [],
+      users: {}
     };
   }
 
   initialize() {
-    this.ref.once('value', store => {
-      let state = store.val();
+    this.ref.transaction(state => {
+      let nextState = state;
+      // If empty, need to start the room
       if (_.isNil(state)) {
-        this.ref.set(this.getInitialState());
+        nextState = this.getInitialState()
       }
+      // If not in the room, join the room
+      // TODO: Should I keep users room specific or make it global?
+      // Might be good to keep it separate for now in case privacy.
+      let user = this.userStore.getCurrentUser();
+      if (!nextState.users) {
+        nextState.users = {};
+      }
+      nextState.users[user.id] = user;
+      return nextState;
     });
   }
 
@@ -88,7 +103,19 @@ export class FirebasePageStore {
     }
   }
 
+  updateUserInfo(info) {
+    this.userStore.update(info);
+    this.ref.child('users').child(this.userId).transaction(state => {
+      if (_.isNil(state)) {
+        return info;
+      } else {
+        return {...state, ...info};
+      }
+    })
+  }
+
   setUserInfo(info) {
-    this.ref.child('users').child(info.id).set(info);
+    this.userStore.setCurrentUser(info);
+    this.ref.child('users').child(this.userId).set(info);
   }
 }

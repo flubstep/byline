@@ -17,25 +17,25 @@ class App extends Component {
       user: null,
       pageState: null
     }
+    this.userId = new UserStore().getCurrentUser().id;
   }
 
   componentDidMount() {
     this.store = new FirebasePageStore('testpage');
-    this.user = new UserStore(this.store);
     this.store.on('value', this.handleStoreUpdate);
-    this.user.on('value', this.handleUserUpdate);
   }
 
   componentWillUnmount() {
     this.store.off('value', this.handleStoreUpdate);
   }
 
-  handleUserUpdate = (user) => {
-    this.setState({ user });
-  }
-
   handleStoreUpdate = (store) => {
-    this.setState({ pageState: store.val() });
+    let pageState = store.val();
+    let user = pageState.users[this.userId];
+    this.setState({
+      pageState,
+      user
+    });
   }
 
   render() {
