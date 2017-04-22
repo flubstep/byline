@@ -1,3 +1,15 @@
 .Page {
     text-align: center;
 }
+
+.Page .page-title {
+    outline: none;
+    border: none;
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: 0.8pt;
+    text-align: center;
+    width: 100%;
+    margin: 21px 0;
+    box-sizing: border-box;
+}
