@@ -32,6 +32,10 @@ export default class AddListItem extends Component {
   }
 
   onBlur = () => {
+    // HACK for mobile for now
+    if (window.innerWidth <= 640) {
+      this.onSubmit();
+    }
     this.setState({ focused: false })
     window.removeEventListener('keydown', this.handleKeyDown);
   }
