@@ -1,9 +1,18 @@
 .UserSettings {
     position: fixed;
-    top: 20px;
-    left: 20px;
+    bottom: 10px;
+    left: 10px;
+    width: 100%;
     display: flex;
     align-items: center;
+}
+
+@media (min-width:640px) {
+    .UserSettings {
+        bottom: auto;
+        top: 20px;
+        left: 20px;
+    }
 }
 
 .UserSettings .user-icon {
@@ -32,19 +41,14 @@
     transition: all 0.2s ease-in-out;
 }
 
-.UserSettings:hover .description {
-    opacity: 1;
-    transform: translateX(0);
-}
-
 @keyframes animate-in {
-    0% { opacity: 0; transform: translateY(-20px); }
+    0% { opacity: 0; transform: translateY(20px); }
     100% { opacity: 1; transform: translateY(0); }
 }
 
 .SettingsModal {
     position: absolute;
-    top: 60px;
+    bottom: 60px;
     left: 0;
     background-color: rgba(255,255,255,0.9);
     box-shadow: 0px 0px 4px rgba(0,0,0,0.3);
@@ -55,7 +59,30 @@
 
 .SettingsModal.animate-out {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(20px);
+}
+
+@media (min-width:640px) {
+
+    @keyframes animate-in {
+        0% { opacity: 0; transform: translateY(-20px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .UserSettings:hover .description {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .SettingsModal {
+        bottom: auto;
+        top: 60px;
+    }
+
+    .SettingsModal.animate-out {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
 }
 
 .SettingsModal h2 {

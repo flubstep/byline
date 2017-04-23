@@ -87,7 +87,6 @@ export default class ListItem extends Component {
         </div>
         <div className="text-container"
           onMouseDown={this.onPointerDown}
-          onTouchStart={this.onPointerDown}
           >
           { this.props.text }
         </div>
