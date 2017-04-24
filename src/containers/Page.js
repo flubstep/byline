@@ -27,7 +27,7 @@ export default class Page extends Component {
 
   render() {
     return (
-      <DocumentTitle title={this.props.title}>
+      <DocumentTitle title={this.props.title ? ('Purinote | ' + this.props.title) : 'Purinote'}>
         <div className="Page">
           <input
             ref="title"

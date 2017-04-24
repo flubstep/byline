@@ -33,7 +33,7 @@ export default class AddListItem extends Component {
 
   onBlur = () => {
     // HACK for mobile for now
-    if (window.innerWidth <= 640) {
+    if (window.innerWidth <= 640 && this.state.inputValue) {
       this.onSubmit();
     }
     this.setState({ focused: false })
